@@ -6,27 +6,19 @@ date: 06/Apr/2021
 # Coursera 
 # Getting and Cleaning Data Course Project Dataset
 
-### Dataset includes the following files
-####  **Tidy_Data.csv**
-####  **Means_by_factors.csv**
+#### Dataset is represented by single file: **Means_by_factors.txt**
  
-This files were created by run_analysis.R script on given [UCI HAR Dataset](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) from [Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) project.
+This file was created by run_analysis.R script on given [UCI HAR Dataset](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) from [Human Activity Recognition Using Smartphones](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones) project.
 
-**Tidy_Data.csv** contains tidy merged data from **X_test.txt** and **X_train.txt** original files with added
+File contains tidy merged data from **X_test.txt** and **X_train.txt** original files with added
 activity factor variable from appropriate **y_test.txt**, **y_train.txt** and factor labels from 
 **activity_labels.txt**. Subject identifier is added from appropriate **subject_test.txt** and 
 **subject_train.txt** files. Proper variable names are assigned from file **features.txt**. 
-Tidy_data.csv contains only that columns from original datasets, which variable names contain "mean()" or "std()" substrings.
+Means_by_factors.txt contains only that columns from original datasets, which variable names contain "mean()" or "std()" substrings.
 
-
-#### **Tidy_Data.csv** 
-Contains 10299 observations of 68 variables. Each row represents one observation from joined original datasets. Each value represents appropriate original variable value from original dataset. Row identifier is just observation row number.
-
-#### **Means_by_factors.csv** 
-Contains 180 observations of 68 variables. Each row represents one observation as factor ACTIVITY-SUBJECT pair (6 activities x 30 subjects=180). Each numeric variable value represents **mean** value from original variable values, grouped by factor. Row identifier is ACTIVITY-SUBJECT pair.
+Means_by_factors.txt contains 180 observations of 68 variables. Each row represents one observation as factor ACTIVITY-SUBJECT pair (6 activities x 30 subjects=180). Each numeric variable value represents **mean** value from original variable values, grouped by factor. Row identifier is ACTIVITY-SUBJECT pair.
 SUBJECT represents single subject identifier, ACTIVITY represents single activity identifier.
 
-Variable names are similar for **Tidy_Data.csv** and **Means_by_factors.csv**. 
 SUBJECT variable is personal identifier for 30 subjects in original study. 
 
 ACTIVITY variable is descriptive factor, that identifies general activity type for each observation. Other variables are mean() and std() variables from original study, described in **features_info.txt**.
@@ -66,7 +58,7 @@ fBodyGyroJerkMag*
 mean(): Mean value  
 std(): Standard deviation  
 
-#### Full variable names list for **Tidy_Data.csv** and **Means_by_factors.csv**
+#### Full variable list for **Means_by_factors.txt**
  1. SUBJECT
 2. ACTIVITY
 3. tBodyAcc-mean()-X
