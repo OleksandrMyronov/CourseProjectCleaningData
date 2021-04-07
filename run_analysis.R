@@ -47,7 +47,7 @@ bindSubject<-function(x, file="UCI HAR Dataset/train/subject_train.txt")
 # Main script function
 main<-function()
 {   
-    #setwd(dirname(sys.frame(1)$ofile))                                          #setting work directory to script location
+    setwd(dirname(sys.frame(1)$ofile))                                          #setting work directory to script location
     loadXValues("UCI HAR Dataset/test/X_test.txt")              %>%             #loading test set
     bindActivity(file="UCI HAR Dataset/test/y_test.txt")        %>%             #binding test "ACTIVITY" column
     bindSubject(file="UCI HAR Dataset/test/subject_test.txt") -> x_test         #binding test "SUBJECT" column 
