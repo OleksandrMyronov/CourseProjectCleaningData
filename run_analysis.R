@@ -1,11 +1,11 @@
 # Script run_analysis.R creates csv file from given data in "UCI HAR Dataset"
-
 # Means_by_factors.csv contains tidy data with mean values for each subject and each activity factor pairs
 # for all variables from original dataset, which variable names contain "mean()" or "std()"
 
 library(dplyr) 
 library(utils)
-
+library(maditr)
+library(reshape2)
 #-------------------------------------------------------------------------------
 # Function returns dataframe with columns from "x" dataframe, which colnames contain "mean()" and "std()"
 MeanStdFeatures<-function(x) 
@@ -44,26 +44,10 @@ bindSubject<-function(x, file="UCI HAR Dataset/train/subject_train.txt")
     cbind(x)                                                                    #Binding to main data.frame
 }
 #-------------------------------------------------------------------------------
-# Function creates new dataset with average of each variable for groups, grouped by column $ApplyFactor value
-colApplyMean<-function(x)
-{
-   dim2x<-dim(x)[2]-1                                                           #Calculating ColNumber-1, last is $ApplyFactor
-   meanSet<-tapply(x[,1], x$ApplyFactor, unique)                  %>%           #Creating first $SUBJECT factor column
-   cbind(tapply(x[,2], x$ApplyFactor, unique)) ->meanSet                        #Creating second $ACTIVITY factor column
-   
-   for (i in 3 : dim2x){                                                        #iterating through columns
-      meanSet<-cbind(meanSet, tapply(x[,i], x$ApplyFactor, mean))               #adding mean values column with tapply 
-     }
-  data.frame(meanSet)                                             %>%           #Formatting data to data.frame
-  setNames(colnames(x)[1:dim2x]) ->meanSet                                      #setting variable names from original dataframe
-  meanSet[,2]<-factor(meanSet[,2], labels=levels(x[,2]))                        #Re-Setting $ACTIVITY variable labels
-  arrange(meanSet, ACTIVITY, SUBJECT)                                           #Sorting by ACTIVITY, then SUBJECT
-}
-#-------------------------------------------------------------------------------
 # Main script function
 main<-function()
 {   
-    setwd(dirname(sys.frame(1)$ofile))                                          #setting work directory to script location
+    #setwd(dirname(sys.frame(1)$ofile))                                          #setting work directory to script location
     loadXValues("UCI HAR Dataset/test/X_test.txt")              %>%             #loading test set
     bindActivity(file="UCI HAR Dataset/test/y_test.txt")        %>%             #binding test "ACTIVITY" column
     bindSubject(file="UCI HAR Dataset/test/subject_test.txt") -> x_test         #binding test "SUBJECT" column 
@@ -72,8 +56,8 @@ main<-function()
     bindActivity(file="UCI HAR Dataset/train/y_train.txt")      %>%             #binding train "ACTIVITY" column
     bindSubject(file="UCI HAR Dataset/train/subject_train.txt") %>%             #binding train "SUBJECT" column  
     rbind(x_test)                                               %>%             #binding test and training sets by rows
-    mutate(ApplyFactor=paste(ACTIVITY, SUBJECT, sep=" "))       %>%             #creating synthetic variable column $ApplyFactor
-    colApplyMean()                                              %>%             #creating new dataset with colApplyMean() function 
+    melt(id= c("SUBJECT", "ACTIVITY"))                          %>%             #melting dataset by factors
+    dcast(ACTIVITY + SUBJECT ~ variable, mean)                  %>%             #applying mean function by factors      
     write.table(file="Means_by_factors.txt", row.name=FALSE)                    #Writing output file "Means_by_factors.txt"
 }
 #-------------------------------------------------------------------------------

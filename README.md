@@ -1,6 +1,6 @@
 ---
 author: Oleksandr Myronov
-date: 06/Apr/2021
+date: 07/Apr/2021
 --
 
 # Script **run_analysis.R**
@@ -17,7 +17,7 @@ Means_by_factors.txt contains only that columns from original datasets, which va
 
 File contains dataset of mean values for each subject and each activity as factor pairs for all variables, which variable names contain "mean()" or "std()" substrings.
 
-Script uses library **dplyr** and **utils**, this libraries should be installed before running script.  
+Script uses library **dplyr**, **utils**, **maditr** and **reshape2**. This libraries should be installed before running script.  
 All other specific functions are defined in single **run_analysis.R** script.
 
 
@@ -32,21 +32,20 @@ All other specific functions are defined in single **run_analysis.R** script.
  
  - **bindSubject(x, file)** *binds SUBJECT column data from "file" to dataframe "x", returns dataframe*
  
- - **colApplyMean<-function(x)** *performes **tapply** function on dataframe x by synthetic variable $ApplyFactor over dataframe columns to extract mean values from each variable. Function performs **unique** instead of **mean** function for first SUBJECT column and second ACTIVITY column, because they are factor class variables (and if tapply fails, this columns would contain lists instead of single values, so it may help with debugging). Results are bound by columns, then sorted by ACTIVITY and SUBJECT.Function returns new dataframe* 
- 
 ##### **main( )** *main script function, that performs:*
   - *setting work directory to current script location*
   - **loadXValues** *functions for loading train and test data from pre-cleaned files*
   - **bindActivity** *functions for loading and binding ACTIVITY variable sets to train and test sets*
   - **bindSubject** *functions for loading and binding SUBJECT variable sets to train and test sets*
   - *binding train and test sets by rows*
-  - *creating synthetic variable ApplyFactor from ACTIVITY and SUBJECT factors and adding it as last column to dataframe*
-  - **colApplyMean** *function to create new dataframe with extracted mean values for each factor*
+  - *melting dataframe by SUBJECT and ACTIVITY*
+  - *applying mean function to melted dataframe by both SUBJECT and ACTIVITY*
   - *writing data to **Means_by_factors.txt***
   
 Script performs main() function to create output file **Means_by_factors.txt**.
 
-Means_by_factors.txt in current repository was created on Windows 10 machine,
-**R x64 4.0.3**, package version **dplyr 1.0.5**, **utils 4.0.3**
+Means_by_factors.txt file in current repository was created on Windows 10 machine,
+**R x64 4.0.3**, package version **dplyr 1.0.5**, **utils 4.0.3**,  
+**maditr 0.7.4**, **reshape2 1.4.4**
   
  
